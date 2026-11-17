@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CogAFFC @ COLING 2027</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap">
+<style>
+/* Layout: sticky light-blue nav, photo hero of the Ruins of St. Paul's under a tint, one Coming Soon block, contact (after the 1st edition site). */
+:root {
+  --bg: #f5f6f9;
+  --surface: #ffffff;
+  --hero: #e8f1ff;
+  --veil: rgba(232, 241, 255, 0.80);
+  --ink: #2b3440;
+  --muted: #5d6673;
+  --line: #d9e1ee;
+  --accent: #c0392b;
+  --accent-soft: #e74c3c;
+  --accent-hover: #a93226;
+  --pill-bg: #fdecea;
+  --font-display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --nav-h: 64px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12161d;
+    --surface: #1a2029;
+    --hero: #172234;
+    --veil: rgba(18, 26, 40, 0.84);
+    --ink: #e4e8ef;
+    --muted: #a3acb9;
+    --line: #2b3545;
+    --accent: #f0786a;
+    --accent-soft: #f59a8f;
+    --accent-hover: #f8b2a9;
+    --pill-bg: #3a1f1d;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12161d;
+  --surface: #1a2029;
+  --hero: #172234;
+  --veil: rgba(18, 26, 40, 0.84);
+  --ink: #e4e8ef;
+  --muted: #a3acb9;
+  --line: #2b3545;
+  --accent: #f0786a;
+  --accent-soft: #f59a8f;
+  --accent-hover: #f8b2a9;
+  --pill-bg: #3a1f1d;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+img { max-width: 100%; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.65;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto;
+  height: env(safe-area-inset-top, 0px);
+  z-index: 10;
+  background: var(--hero);
+}
+a { color: var(--accent); }
+a:hover { color: var(--accent-hover); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+.wrap {
+  max-width: 960px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+/* Nav */
+.nav {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 9;
+  background: var(--hero);
+  border-bottom: 1px solid var(--line);
+}
+.nav .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: var(--nav-h);
+  max-width: 1120px;
+}
+.brand {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: 0.01em;
+  color: var(--accent);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.brand span { color: var(--muted); font-weight: 500; font-size: 0.95rem; margin-left: 6px; }
+.nav-links {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 22px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.nav-links a {
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 0.92rem;
+  font-weight: 500;
+  padding: 4px 0;
+  border-bottom: 2px solid transparent;
+}
+.nav-links a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+.menu-btn {
+  display: none;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--ink);
+  font: 500 0.9rem var(--font-body);
+  padding: 6px 12px;
+  cursor: pointer;
+}
+@media (max-width: 640px) {
+  .menu-btn { display: inline-block; }
+  .nav .wrap { flex-wrap: wrap; }
+  .nav-links {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding-bottom: 12px;
+  }
+  .nav.open .nav-links { display: flex; }
+  .nav-links a { display: block; padding: 10px 0; border-bottom: 1px solid var(--line); }
+  .nav-links a:hover { border-bottom-color: var(--line); }
+}
+
+/* Edition switcher */
+.edition-switch { position: relative; }
+.edition-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--accent);
+  color: var(--surface);
+  border: 0;
+  border-radius: 6px;
+  font: 600 0.88rem var(--font-body);
+  padding: 7px 12px;
+  cursor: pointer;
+}
+.edition-btn:hover { background: var(--accent-hover); }
+.edition-btn svg { width: 12px; height: 12px; transition: transform 0.15s; }
+.edition-switch.open .edition-btn svg { transform: rotate(180deg); }
+.edition-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  min-width: 210px;
+  list-style: none;
+  margin: 0;
+  padding: 6px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+}
+.nav-links .edition-menu a {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 14px;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 6px;
+  color: var(--ink);
+  font-size: 0.9rem;
+}
+.nav-links .edition-menu a:hover { background: var(--hero); color: var(--accent); }
+.nav-links .edition-menu a[aria-current="page"] { color: var(--accent); font-weight: 600; }
+.ed-meta { color: var(--muted); font-size: 0.8rem; font-weight: 400; }
+@media (max-width: 640px) {
+  .edition-switch { padding-top: 12px; }
+  .edition-menu { position: static; box-shadow: none; margin-top: 8px; }
+}
+
+/* Hero */
+.hero {
+  background-color: var(--hero);
+  background-image: linear-gradient(var(--veil), var(--veil)), url("assets/st-pauls-macau.jpg");
+  background-size: cover;
+  background-position: center 35%;
+  background-repeat: no-repeat;
+  text-align: center;
+}
+.hero .wrap { padding-block: 80px 72px; }
+.edition {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  padding: 4px 14px;
+  margin-bottom: 20px;
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.1rem, 6vw, 3.4rem);
+  line-height: 1.12;
+  color: var(--accent);
+  margin: 0 0 20px;
+  text-wrap: balance;
+}
+.hero .subtitle {
+  font-size: clamp(1.05rem, 2.6vw, 1.3rem);
+  color: var(--accent-soft);
+  margin: 0 0 22px;
+  text-wrap: balance;
+}
+.conf {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 14px;
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0 0 18px;
+}
+.conf .sep { color: var(--muted); }
+.conf a { font-weight: 600; text-decoration: none; }
+.conf a:hover { text-decoration: underline; }
+.hero .lead {
+  max-width: 62ch;
+  margin: 0 auto 30px;
+  color: var(--ink);
+}
+.button {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--surface);
+  font-weight: 600;
+  text-decoration: none;
+  padding: 11px 26px;
+  border-radius: 6px;
+}
+.button:hover { background: var(--accent-hover); color: var(--surface); }
+
+/* Sections */
+main section { scroll-margin-top: calc(var(--nav-h) + 12px); }
+main .wrap { padding-block: 56px 8px; }
+main section:last-of-type .wrap { padding-bottom: 64px; }
+h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.6rem, 4vw, 2rem);
+  color: var(--accent);
+  text-align: center;
+  margin: 0 0 22px;
+  text-wrap: balance;
+}
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 28px clamp(18px, 4vw, 36px);
+  text-align: center;
+}
+.upcoming {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.upcoming li {
+  background: var(--pill-bg);
+  color: var(--accent);
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: 999px;
+  padding: 6px 16px;
+}
+
+/* Contact */
+.contact-line {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px 12px;
+  margin: 0;
+}
+.contact-name { font-weight: 600; color: var(--ink); }
+.contact-mail { color: var(--accent); text-decoration: none; overflow-wrap: anywhere; }
+.copy-btn {
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--muted);
+  font: 500 0.8rem var(--font-body);
+  padding: 3px 10px;
+  cursor: pointer;
+}
+.copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+
+/* Footer */
+footer {
+  border-top: 1px solid var(--line);
+  background: var(--hero);
+  color: var(--muted);
+  font-size: 0.88rem;
+  text-align: center;
+}
+footer .wrap { padding-block: 22px; display: grid; gap: 4px; }
+footer .credit { font-size: 0.78rem; }
+footer .credit a { color: var(--muted); }
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav" aria-label="Main">
+  <div class="wrap">
+    <a class="brand" href="#home">CogAFFC<span>2027</span></a>
+    <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="nav-links">Menu</button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#updates">Coming Soon</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li class="edition-switch" id="edition-switch">
+        <button class="edition-btn" id="edition-btn" type="button" aria-expanded="false" aria-controls="edition-menu">Past Events<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4.5l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <ul class="edition-menu" id="edition-menu" hidden>
+          <li><a href="https://cogaffc.github.io/MM2025/" target="_blank" rel="noopener"><span>ACM MM 2025</span><span class="ed-meta">1st · Dublin</span></a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero" id="home">
+  <div class="wrap">
+    <div class="edition">2nd Edition</div>
+    <h1>The 2nd CogAFFC Workshop</h1>
+    <p class="conf">
+      <span>9-14 May 2027</span><span class="sep" aria-hidden="true">|</span>
+      <span>Macau, China</span><span class="sep" aria-hidden="true">|</span>
+      <a href="https://2027.coling-iccl.org/" target="_blank" rel="noopener">COLING 2027</a>
+    </p>
+    <p class="lead">Co-located with the <a href="https://2027.coling-iccl.org/" target="_blank" rel="noopener">32nd International Conference on Computational Linguistics (COLING 2027)</a>.</p>
+    <a class="button" href="#updates">Learn More</a>
+  </div>
+</header>
+
+<main>
+  <section id="updates">
+    <div class="wrap">
+      <h2>Coming Soon</h2>
+      <div class="panel">
+        <ul class="upcoming">
+          <li>About</li>
+          <li>Call for Papers</li>
+          <li>Important Dates</li>
+          <li>Submission</li>
+          <li>Schedule</li>
+          <li>Invited Speakers</li>
+          <li>Organizers</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <h2>Contact</h2>
+      <div class="panel">
+        <p class="contact-line"><span class="contact-name">Bobo Li:</span><a class="contact-mail" id="contact-mail" href="mailto:libobo@nus.edu.sg">libobo@nus.edu.sg</a><button type="button" class="copy-btn" id="copy-btn">Copy</button></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 CogAFFC Workshop. All rights reserved.</div>
+    <div class="credit">Background: <a href="https://commons.wikimedia.org/wiki/File:500px_photo_Cathedral_of_Saint_Paul_in_Macau_facade_detail.jpg" target="_blank" rel="noopener">Ruins of St. Paul's, Macau</a> by David Wong, <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">CC BY 3.0</a>, tinted.</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var nav = document.getElementById('nav');
+  var btn = document.getElementById('menu-btn');
+  btn.addEventListener('click', function () {
+    var open = nav.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  document.querySelectorAll('#nav-links a').forEach(function (a) {
+    a.addEventListener('click', function () {
+      nav.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  var sw = document.getElementById('edition-switch');
+  var swBtn = document.getElementById('edition-btn');
+  var swMenu = document.getElementById('edition-menu');
+  function setSwitch(open) {
+    swMenu.hidden = !open;
+    sw.classList.toggle('open', open);
+    swBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  swBtn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    setSwitch(swMenu.hidden);
+  });
+  swMenu.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', function () { setSwitch(false); });
+  });
+  document.addEventListener('click', function (e) {
+    if (!sw.contains(e.target)) setSwitch(false);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !swMenu.hidden) { setSwitch(false); swBtn.focus(); }
+  });
+
+  var copyBtn = document.getElementById('copy-btn');
+  var mail = document.getElementById('contact-mail');
+  function selectMail() {
+    var r = document.createRange();
+    r.selectNodeContents(mail);
+    var s = window.getSelection();
+    s.removeAllRanges();
+    s.addRange(r);
+    copyBtn.textContent = 'Selected';
+  }
+  copyBtn.addEventListener('click', function () {
+    var text = mail.textContent.trim();
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () {
+        copyBtn.textContent = 'Copied';
+        setTimeout(function () { copyBtn.textContent = 'Copy'; }, 1600);
+      }, selectMail);
+    } else {
+      selectMail();
+    }
+  });
+})();
+</script>
+</body>
+</html>
