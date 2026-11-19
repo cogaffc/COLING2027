@@ -202,10 +202,12 @@ a:hover { color: var(--accent-hover); }
   border-radius: 6px;
   color: var(--ink);
   font-size: 0.9rem;
+  white-space: nowrap;
 }
 .nav-links .edition-menu a:hover { background: var(--hero); color: var(--accent); }
 .nav-links .edition-menu a[aria-current="page"] { color: var(--accent); font-weight: 600; }
 .ed-meta { color: var(--muted); font-size: 0.8rem; font-weight: 400; }
+.edition-menu .menu-sep { height: 0; margin: 6px 4px; border-top: 1px solid var(--line); }
 @media (max-width: 640px) {
   .edition-switch { padding-top: 12px; }
   .edition-menu { position: static; box-shadow: none; margin-top: 8px; }
@@ -398,6 +400,8 @@ footer .wrap { padding-block: 22px; display: grid; gap: 4px; }
         <button class="edition-btn" id="edition-btn" type="button" aria-expanded="false" aria-controls="edition-menu">Past Events<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4.5l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <ul class="edition-menu" id="edition-menu" hidden>
           <li><a href="https://cogaffc.github.io/MM2025/" target="_blank" rel="noopener"><span>ACM MM 2025</span><span class="ed-meta">1st · Dublin</span></a></li>
+          <li class="menu-sep" role="separator"></li>
+          <li><a href="https://cogaffc.github.io/workshop/"><span>CogAFFC Home</span><span class="ed-meta">All events</span></a></li>
         </ul>
       </li>
     </ul>
